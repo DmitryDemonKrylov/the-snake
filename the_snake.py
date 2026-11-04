@@ -153,7 +153,6 @@ def handle_keys(game_object):
 
 def main():
     """Запускает игровой цикл."""
-
     pygame.init()
     snake = Snake()
     apple = Apple()
