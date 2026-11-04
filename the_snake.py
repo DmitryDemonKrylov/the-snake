@@ -65,19 +65,41 @@ class Apple(GameObject):
 
 class Snake(GameObject):
     def __init__(self):
-        pass
+        super().__init__()
+        self.lenght = 1
+        self.positions = [self.position]
+        self.direction = RIGHT
+        self.next_direction = None
+        self.body_color = SNAKE_COLOR
+        self.last = None
 
     def get_head_position(self):
-        pass
+        return self.positions[0]
 
     def update_direction(self):
-        pass
+        if self.next_direction:
+            self.direction = self.next_direction
+            self.next_direction = None
 
     def move(self):
-        pass
+        current_head_x, current_head_y = self.get_head_position()
+        direction_x, direction_y = self.direction
 
+        new_head_x = (current_head_x + direction_x * GRID_SIZE) % SCREEN_WIDTH
+        new_head_y = (current_head_y + direction_y * GRID_SIZE) % SCREEN_HEIGHT
+        new_head = (new_head_x, new_head_y)
+
+        self.positions.insert(0, new_head)
+
+        if len(self.positions) > self.lenght:
+            self.last = self.positions.pop()
+       
     def reset(self):
-        pass
+        self.lenght = 1
+        self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
+        self.direction = choice([UP, DOWN, LEFT, RIGHT])
+        self.next_direction = None
+        self.last = None
 
     def draw(self):
         pass
