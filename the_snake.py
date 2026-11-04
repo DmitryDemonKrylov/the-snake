@@ -40,7 +40,41 @@ clock = pygame.time.Clock()
 
 
 # Тут опишите все классы игры.
-...
+class GameObject:
+    def __init__(self):
+        pass
+
+    def draw(self):
+        pass
+
+class Apple(GameObject):
+    def __init__(self):
+        pass
+
+    def randomize_position(self):
+        pass
+
+    def draw(self):
+        pass
+
+class Snake(GameObject):
+    def __init__(self):
+        pass
+
+    def get_head_position(self):
+        pass
+
+    def update_direction(self):
+        pass
+
+    def move(self):
+        pass
+
+    def reset(self):
+        pass
+
+    def draw(self):
+        pass
 
 
 def main():
