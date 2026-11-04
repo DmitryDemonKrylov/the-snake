@@ -68,7 +68,7 @@ class Apple(GameObject):
 class Snake(GameObject):
     def __init__(self):
         super().__init__()
-        self.lenght = 1
+        self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
@@ -93,11 +93,11 @@ class Snake(GameObject):
 
         self.positions.insert(0, new_head)
 
-        if len(self.positions) > self.lenght:
+        if len(self.positions) > self.length:
             self.last = self.positions.pop()
        
     def reset(self):
-        self.lenght = 1
+        self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
@@ -147,7 +147,7 @@ def main():
         snake.move()
 
         if snake.get_head_position() == apple.position:
-            snake.lenght += 1
+            snake.length += 1
             apple.randomize_position()
 
         if snake.get_head_position() in snake.positions[1:]:
