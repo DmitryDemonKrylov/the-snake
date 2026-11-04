@@ -135,13 +135,28 @@ def main():
     # Инициализация PyGame:
     pygame.init()
     # Тут нужно создать экземпляры классов.
-    ...
+    snake = Snake()
+    apple = Apple()
 
-    # while True:
-    #     clock.tick(SPEED)
+    while True:
+        clock.tick(SPEED)
 
         # Тут опишите основную логику игры.
-        # ...
+        handle_keys(snake)
+        snake.update_direction()
+        snake.move()
+
+        if snake.get_head_position() == apple.position:
+            snake.lenght += 1
+            apple.randomize_position()
+
+        if snake.get_head_position() in snake.positions[1:]:
+            snake.reset()
+            screen.fill(BOARD_BACKGROUND_COLOR)
+
+        snake.draw()
+        apple.draw()
+        pygame.display.update()
 
 
 if __name__ == '__main__':
