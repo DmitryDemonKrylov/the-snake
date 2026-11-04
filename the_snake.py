@@ -50,10 +50,15 @@ class GameObject:
 
 class Apple(GameObject):
     def __init__(self):
-        pass
+        super().__init__()
+        self.body_color = APPLE_COLOR
+        self.randomize_position()
 
     def randomize_position(self):
-        pass
+        self.position = (
+            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+            randint(0, GRID_HEIGHT - 1) * GRID_SIZE,
+        )
 
     def draw(self):
         pass
