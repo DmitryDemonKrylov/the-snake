@@ -20,6 +20,7 @@ BOARD_BACKGROUND_COLOR = (0, 0, 0)
 BORDER_COLOR = (93, 216, 228)
 APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
+DEFAULT_COLOR = (255, 0, 255)
 
 # Скорость движения змейки:
 SPEED = 20
@@ -43,16 +44,16 @@ class GameObject:
     общий для яблока и сегментов змейки.
     """
 
-    def __init__(self):
+    def __init__(self, color=DEFAULT_COLOR):
         self.position = SCREEN_CENTER
-        self.body_color = None
+        self.body_color = color
 
     def draw_cell(self, position, color=None):
         """
         Отрисовывает одну ячейку по заданной позиции.
 
         :param position: координаты ячейки
-        :param color: цвет ячейки (по умолчанию - body_color)
+        :param color: цвет ячейки (по умолчанию — body_color)
         """
         if color is None:
             color = self.body_color
