@@ -33,13 +33,25 @@ pg.display.set_caption('Змейка')
 clock = pg.time.Clock()
 
 
-# Тут опишите все классы игры.
 class GameObject:
     """Базовый класс для игровых объектов."""
 
     def __init__(self):
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.body_color = None
+
+    def draw_cell(self, position, color=None):
+        """
+        Отрисовывает одну ячейку по заданной позиции.
+
+        :param position: координаты ячейки
+        :param color: цвет ячейки (по умолчанию — body_color)
+        """
+        if color is None:
+            color = self.body_color
+        rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
+        pg.draw.rect(screen, color, rect)
+        pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
     def draw(self):
         """Метод для отрисовки объектов. Определяется в дочерних классах"""
@@ -63,9 +75,7 @@ class Apple(GameObject):
 
     def draw(self):
         """Отрисовывает яблоко на экране."""
-        rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-        pg.draw.rect(screen, self.body_color, rect)
-        pg.draw.rect(screen, BORDER_COLOR, rect, 1)
+        self.draw_cell(self.position)
 
 
 class Snake(GameObject):
@@ -114,18 +124,14 @@ class Snake(GameObject):
 
     def draw(self):
         """Отрисовывает змейку на экране."""
-        for position in self.positions[:-1]:
-            rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
-            pg.draw.rect(screen, self.body_color, rect)
-            pg.draw.rect(screen, BORDER_COLOR, rect, 1)
-
-        head_rect = pg.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
-        pg.draw.rect(screen, self.body_color, head_rect)
-        pg.draw.rect(screen, BORDER_COLOR, head_rect, 1)
-
         if self.last:
             last_rect = pg.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
+
+        for position in self.positions[:-1]:
+            self.draw_cell(position)
+
+        self.draw_cell(self.positions[0])
 
 
 def handle_keys(game_object):
@@ -154,7 +160,6 @@ def main():
     while True:
         clock.tick(SPEED)
 
-        # Тут опишите основную логику игры.
         handle_keys(snake)
         snake.update_direction()
         snake.move()
