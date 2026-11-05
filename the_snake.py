@@ -72,17 +72,25 @@ class GameObject:
 class Apple(GameObject):
     """Класс яблока."""
 
-    def __init__(self):
-        super().__init__()
-        self.body_color = APPLE_COLOR
-        self.randomize_position()
+    def __init__(self, forbidden_positions=None):
+        super().__init__(APPLE_COLOR)
+        if forbidden_positions is None:
+            forbidden_positions = [SCREEN_CENTER]
+        self.randomize_position(forbidden_positions)
 
-    def randomize_position(self):
-        """Устанавливает случайную позицию яблока на экране."""
-        self.position = (
-            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-            randint(0, GRID_HEIGHT - 1) * GRID_SIZE,
-        )
+    def randomize_position(self, forbidden_positions):
+        """
+        Устанавливает случайную позицию яблока вне запретных координат.
+
+        :param forbidden_positions: координаты, где яблоко не должно появляться
+        """
+        while True:
+            self.position = (
+                randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                randint(0, GRID_HEIGHT - 1) * GRID_SIZE,
+            )
+            if self.position not in forbidden_positions:
+                break
 
     def draw(self):
         """Отрисовывает яблоко на экране."""
@@ -124,6 +132,8 @@ class Snake(GameObject):
 
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
+        else:
+            self.last = None
 
     def reset(self):
         """Сбрасывает прогресс змейки до начального состояния."""
@@ -166,7 +176,7 @@ def main():
     """Запускает игровой цикл."""
     pg.init()
     snake = Snake()
-    apple = Apple()
+    apple = Apple(snake.positions)
 
     while True:
         clock.tick(SPEED)
@@ -177,7 +187,7 @@ def main():
 
         if snake.get_head_position() == apple.position:
             snake.length += 1
-            apple.randomize_position()
+            apple.randomize_position(snake.positions)
 
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
