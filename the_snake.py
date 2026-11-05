@@ -34,7 +34,13 @@ clock = pg.time.Clock()
 
 
 class GameObject:
-    """Базовый класс для игровых объектов."""
+    """
+    Базовый класс для всех игровых объектов.
+
+    Хранит позицию объекта на игровом поле и его цвет.
+    Предоставляет метод draw_cell() для отрисовки одной ячейки,
+    общий для яблока и сегментов змейки.
+    """
 
     def __init__(self):
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -45,7 +51,7 @@ class GameObject:
         Отрисовывает одну ячейку по заданной позиции.
 
         :param position: координаты ячейки
-        :param color: цвет ячейки (по умолчанию — body_color)
+        :param color: цвет ячейки (по умолчанию - body_color)
         """
         if color is None:
             color = self.body_color
