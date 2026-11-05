@@ -7,6 +7,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
+SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
 # Направления движения:
 UP = (0, -1)
@@ -43,7 +44,7 @@ class GameObject:
     """
 
     def __init__(self):
-        self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        self.position = SCREEN_CENTER
         self.body_color = None
 
     def draw_cell(self, position, color=None):
@@ -123,7 +124,7 @@ class Snake(GameObject):
     def reset(self):
         """Сбрасывает прогресс змейки до начального состояния."""
         self.length = 1
-        self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
+        self.positions = [SCREEN_CENTER]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
         self.last = None
