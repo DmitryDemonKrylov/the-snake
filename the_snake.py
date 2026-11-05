@@ -62,8 +62,11 @@ class GameObject:
         pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
     def draw(self):
-        """Метод для отрисовки объектов. Определяется в дочерних классах"""
-        pass
+        """
+        Отрисовывает игровой объект.
+
+        Метод-заглушка: должен быть переопределён в дочерних классах.
+        """
 
 
 class Apple(GameObject):
