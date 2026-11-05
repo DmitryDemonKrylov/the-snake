@@ -149,9 +149,6 @@ class Snake(GameObject):
             last_rect = pg.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
-        for position in self.positions[:-1]:
-            self.draw_cell(position)
-
         self.draw_cell(self.positions[0])
 
 
