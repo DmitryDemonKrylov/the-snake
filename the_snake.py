@@ -149,7 +149,7 @@ class Snake(GameObject):
             last_rect = pg.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
-        self.draw_cell(self.positions[0])
+        self.draw_cell(self.get_head_position())
 
 
 def handle_keys(game_object):
@@ -158,7 +158,7 @@ def handle_keys(game_object):
         if event.type == pg.QUIT:
             pg.quit()
             raise SystemExit
-        elif event.type == pg.KEYDOWN:
+        if event.type == pg.KEYDOWN:
             if event.key == pg.K_UP and game_object.direction != DOWN:
                 game_object.next_direction = UP
             elif event.key == pg.K_DOWN and game_object.direction != UP:
