@@ -48,18 +48,19 @@ class GameObject:
         self.position = SCREEN_CENTER
         self.body_color = color
 
-    def draw_cell(self, position, color=None):
+    def draw_cell(self, position, color=None, border=True):
         """
         Отрисовывает одну ячейку по заданной позиции.
 
         :param position: координаты ячейки
         :param color: цвет ячейки (по умолчанию — body_color)
+        :param border: рисовать ли рамку ячейки
         """
-        if color is None:
-            color = self.body_color
+        color = color or self.body_color
         rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, color, rect)
-        pg.draw.rect(screen, BORDER_COLOR, rect, 1)
+        if border:
+            pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
     def draw(self):
         """
@@ -84,13 +85,15 @@ class Apple(GameObject):
 
         :param forbidden_positions: координаты, где яблоко не должно появляться
         """
-        while True:
+        self.position = (
+            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+            randint(0, GRID_HEIGHT - 1) * GRID_SIZE,
+        )
+        while self.position in forbidden_positions:
             self.position = (
                 randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 randint(0, GRID_HEIGHT - 1) * GRID_SIZE,
             )
-            if self.position not in forbidden_positions:
-                break
 
     def draw(self):
         """Отрисовывает яблоко на экране."""
@@ -101,12 +104,11 @@ class Snake(GameObject):
     """Класс змейки."""
 
     def __init__(self):
-        super().__init__()
+        super().__init__(SNAKE_COLOR)
         self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
-        self.body_color = SNAKE_COLOR
         self.last = None
 
     def get_head_position(self):
@@ -138,7 +140,7 @@ class Snake(GameObject):
     def reset(self):
         """Сбрасывает прогресс змейки до начального состояния."""
         self.length = 1
-        self.positions = [SCREEN_CENTER]
+        self.positions = [self.position]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
         self.last = None
@@ -146,8 +148,7 @@ class Snake(GameObject):
     def draw(self):
         """Отрисовывает змейку на экране."""
         if self.last:
-            last_rect = pg.Rect(self.last, (GRID_SIZE, GRID_SIZE))
-            pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
+            self.draw_cell(self.last, BOARD_BACKGROUND_COLOR, border=False)
 
         self.draw_cell(self.get_head_position())
 
